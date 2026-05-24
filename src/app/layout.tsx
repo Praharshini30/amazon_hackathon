@@ -4,14 +4,14 @@ import { Providers } from '@/components/providers';
 import { Header } from '@/components/layout/header';
 
 export const metadata: Metadata = {
-  title: 'DreamCart AI — Who do you want to become?',
-  description: 'AI-powered aspirational commerce. Transform dreams into actionable product roadmaps.',
+  title: 'DreamCart.ai — Online Shopping for Electronics, Fashion, AI & More',
+  description: 'AI-powered aspirational commerce. Shop like Amazon with Dream AI — transform aspirations into product roadmaps.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col">
+    <html lang="en">
+      <body className="min-h-screen flex flex-col bg-[#e3e6e6]">
         <Providers>
           <Header />
           <main className="flex-1">{children}</main>

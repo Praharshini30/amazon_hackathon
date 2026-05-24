@@ -1,74 +1,132 @@
 'use client';
 
-import { Search, ShoppingCart, Heart, User, Sparkles, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import { Search, MapPin, ShoppingCart, ChevronDown, Sparkles, Menu } from 'lucide-react';
+import { DreamAIModal } from '../dream-ai/dream-ai-modal';
 
 export function Header() {
-  const [searchFocused, setSearchFocused] = useState(false);
+  const [showDreamAI, setShowDreamAI] = useState(false);
+  const [searchCategory, setSearchCategory] = useState('All');
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-slate-200/50 dark:border-slate-700/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg gradient-brand flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent hidden sm:block">
-              DreamCart AI
-            </span>
-          </div>
+    <>
+      {/* Main navbar - Amazon dark */}
+      <header className="bg-[#131921] text-white">
+        <div className="max-w-[1500px] mx-auto">
+          {/* Top bar */}
+          <div className="flex items-center gap-2 px-4 py-2">
+            {/* Logo */}
+            <a href="/" className="flex items-center gap-1 p-2 border border-transparent hover:border-white rounded-sm shrink-0">
+              <span className="text-xl font-bold">
+                <span className="text-white">dream</span>
+                <span className="text-[#ff9900]">cart</span>
+              </span>
+              <span className="text-[10px] text-gray-400">.ai</span>
+            </a>
 
-          {/* Search */}
-          <div className={cn(
-            'flex-1 max-w-xl mx-4 sm:mx-8 transition-all duration-300',
-            searchFocused && 'max-w-2xl'
-          )}>
-            <div className={cn(
-              'relative flex items-center rounded-full border transition-all duration-300',
-              searchFocused
-                ? 'border-brand-400 ring-4 ring-brand-100 dark:ring-brand-900/30 shadow-lg'
-                : 'border-slate-200 dark:border-slate-700 hover:border-brand-300'
-            )}>
-              <Search className="absolute left-4 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Who do you want to become?"
-                className="w-full py-2.5 pl-11 pr-4 bg-transparent text-sm rounded-full outline-none placeholder:text-slate-400"
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-              />
-              <div className="absolute right-2">
-                <button className="px-3 py-1.5 text-xs font-medium text-white rounded-full gradient-brand hover:opacity-90 transition">
-                  <Sparkles className="w-3 h-3 inline mr-1" />
-                  AI
+            {/* Deliver to */}
+            <div className="hidden lg:flex items-center gap-1 p-2 border border-transparent hover:border-white rounded-sm cursor-pointer">
+              <MapPin className="w-4 h-4 text-white mt-3" />
+              <div>
+                <span className="text-[11px] text-gray-300">Deliver to</span>
+                <div className="text-sm font-bold leading-tight">India</div>
+              </div>
+            </div>
+
+            {/* Search bar */}
+            <div className="flex-1 flex items-center mx-2">
+              <div className="flex w-full rounded-md overflow-hidden">
+                <select
+                  value={searchCategory}
+                  onChange={(e) => setSearchCategory(e.target.value)}
+                  className="hidden sm:block bg-[#e6e6e6] text-gray-700 text-xs px-2 py-2 border-r border-gray-300 outline-none cursor-pointer rounded-l-md"
+                >
+                  <option>All</option>
+                  <option>Electronics</option>
+                  <option>Cameras</option>
+                  <option>Fitness</option>
+                  <option>Computers</option>
+                  <option>Audio</option>
+                  <option>Gaming</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="Search DreamCart"
+                  className="flex-1 px-3 py-2 text-sm text-gray-900 outline-none min-w-0"
+                />
+                <button className="bg-[#febd69] hover:bg-[#f3a847] px-4 flex items-center rounded-r-md">
+                  <Search className="w-5 h-5 text-gray-800" />
                 </button>
               </div>
             </div>
+
+            {/* ★ Dream AI Button — the special feature */}
+            <button
+              onClick={() => setShowDreamAI(true)}
+              className="hidden md:flex items-center gap-1.5 px-3 py-2 border border-[#ff9900] rounded-md hover:bg-[#ff9900]/10 transition-all dream-ai-glow"
+            >
+              <Sparkles className="w-4 h-4 text-[#ff9900]" />
+              <span className="text-sm font-bold text-[#ff9900]">Dream AI</span>
+            </button>
+
+            {/* Account */}
+            <div className="hidden sm:flex flex-col p-2 border border-transparent hover:border-white rounded-sm cursor-pointer">
+              <span className="text-[11px] text-gray-300">Hello, Sign in</span>
+              <div className="flex items-center text-sm font-bold leading-tight">
+                Account & Lists <ChevronDown className="w-3 h-3 ml-0.5" />
+              </div>
+            </div>
+
+            {/* Returns */}
+            <div className="hidden md:flex flex-col p-2 border border-transparent hover:border-white rounded-sm cursor-pointer">
+              <span className="text-[11px] text-gray-300">Returns</span>
+              <span className="text-sm font-bold leading-tight">& Orders</span>
+            </div>
+
+            {/* Cart */}
+            <a href="#" className="flex items-center p-2 border border-transparent hover:border-white rounded-sm relative">
+              <div className="relative">
+                <ShoppingCart className="w-8 h-8" />
+                <span className="absolute -top-1 left-4 text-[#ff9900] text-sm font-bold">0</span>
+              </div>
+              <span className="hidden sm:inline text-sm font-bold mt-3">Cart</span>
+            </a>
           </div>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-1">
-            <button className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition hidden sm:flex">
-              <Heart className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+          {/* Bottom sub-nav */}
+          <div className="bg-[#232f3e] flex items-center gap-1 px-4 py-1.5 text-sm overflow-x-auto scrollbar-hide">
+            <button className="flex items-center gap-1 px-2 py-1 border border-transparent hover:border-white rounded-sm whitespace-nowrap font-bold">
+              <Menu className="w-5 h-5" /> All
             </button>
-            <button className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition relative">
-              <ShoppingCart className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 text-[10px] font-bold text-white bg-brand-500 rounded-full flex items-center justify-center">
-                0
-              </span>
-            </button>
-            <button className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition hidden sm:flex">
-              <User className="w-5 h-5 text-slate-600 dark:text-slate-400" />
-            </button>
-            <button className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition sm:hidden">
-              <Menu className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+            <NavLink>Today&apos;s Deals</NavLink>
+            <NavLink>Electronics</NavLink>
+            <NavLink>Fitness</NavLink>
+            <NavLink>Home & Kitchen</NavLink>
+            <NavLink>Fashion</NavLink>
+            <NavLink>New Releases</NavLink>
+            <NavLink>Gift Ideas</NavLink>
+            <NavLink>Customer Service</NavLink>
+            {/* Dream AI in sub-nav for mobile */}
+            <button
+              onClick={() => setShowDreamAI(true)}
+              className="md:hidden flex items-center gap-1 px-2 py-1 rounded-sm whitespace-nowrap text-[#ff9900] font-bold"
+            >
+              <Sparkles className="w-3 h-3" /> Dream AI
             </button>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Dream AI Modal */}
+      {showDreamAI && <DreamAIModal onClose={() => setShowDreamAI(false)} />}
+    </>
+  );
+}
+
+function NavLink({ children }: { children: React.ReactNode }) {
+  return (
+    <a href="#" className="px-2 py-1 border border-transparent hover:border-white rounded-sm whitespace-nowrap">
+      {children}
+    </a>
   );
 }
